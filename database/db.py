@@ -19,43 +19,30 @@ def init_db():
     print("Connecting to MongoDB Atlas...")
     
     try:
-        # Use certifi to supply the correct CA bundle for secure verification on Windows/Python 3.9
+        # For Render deployment - using certifi for SSL
         client = MongoClient(
-            mongo_uri, 
+            mongo_uri,
+            tls=True,
             tlsCAFile=certifi.where(),
-            serverSelectionTimeoutMS=5000
+            serverSelectionTimeoutMS=10000
         )
-        db = client.get_database()
         # Test connection
         client.admin.command('ping')
-        print("Connected to MongoDB Atlas successfully!")
+        db = client.get_database()
+        print("✅ Connected to MongoDB Atlas successfully!")
         return db
     except Exception as e:
-        print("\n" + "="*80)
-        print("CONNECTION WARNING: Failed to connect to MongoDB Atlas.")
-        print("This is most commonly caused by your IP address not being whitelisted.")
-        print("To fix this:")
-        print("1. Log in to the MongoDB Atlas Dashboard (https://cloud.mongodb.com).")
-        print("2. Navigate to Security -> Network Access.")
-        print("3. Click 'Add IP Address' and select 'Add Current IP Address' to whitelist your network.")
-        print("-" * 80)
-        print("Attempting to connect to local MongoDB fallback...")
-        print("="*80 + "\n")
-        
+        print(f"❌ Connection failed: {e}")
+        print("Attempting without custom SSL...")
         try:
-            local_uri = os.getenv('LOCAL_MONGO_URI', 'mongodb://localhost:27017/infohub')
-            client = MongoClient(
-                local_uri,
-                serverSelectionTimeoutMS=3000
-            )
-            db = client.get_database()
-            # Test local connection
+            client = MongoClient(mongo_uri, serverSelectionTimeoutMS=10000)
             client.admin.command('ping')
-            print("Connected to local MongoDB fallback successfully!")
+            db = client.get_database()
+            print("✅ Connected to MongoDB Atlas successfully (fallback mode)!")
             return db
-        except Exception as local_e:
-            print("Failed to connect to local MongoDB fallback as well.")
-            raise local_e
+        except Exception as e2:
+            print(f"❌ Both connection attempts failed: {e2}")
+            raise e
 
 def get_db():
     global db
