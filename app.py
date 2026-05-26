@@ -117,4 +117,4 @@ if __name__ == '__main__':
     print(f"Website: http://localhost:5000")
     print(f"AI Tools Directory: http://localhost:5000/projects/ai-tools/")
     print("="*50 + "\n")
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=10000)
