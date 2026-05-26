@@ -1,0 +1,70 @@
+{# templates/contact.html #}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold gradient-text">Get In Touch</h1>
+            <p class="text-xl text-gray-600 mt-4">Have a question or want to work with us? Reach out!</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <form id="contact-form" method="POST" action="{{ url_for('main.contact') }}">
+                    <div class="mb-6">
+                        <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
+                        <input type="text" id="name" name="name" required
+                            class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                        <input type="email" id="email" name="email" required
+                            class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
+                        <textarea id="message" name="message" rows="6" required
+                            class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="btn-primary w-full text-white py-3 rounded-lg font-semibold transition">Send
+                        Message</button>
+                </form>
+            </div>
+
+            <div class="space-y-8">
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-purple-600 text-xl w-8"></i>
+                            <span class="text-gray-600">infohub.net.in@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-purple-600 text-xl w-8"></i>
+                            <span class="text-gray-600">+91 7418203404</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-purple-600 text-xl w-8"></i>
+                            <span class="text-gray-600">KanyaKumari, TN, India</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-purple-600 transition text-3xl"><i
+                                class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-purple-600 transition text-3xl"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-purple-600 transition text-3xl"><i
+                                class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
