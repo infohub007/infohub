@@ -11,6 +11,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Favicon for browser tab -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+
+    <!-- For Google search results -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='logo.png') }}">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "InfoHub",
+  "url": "https://www.infohub.net.in",
+  "logo": "https://www.infohub.net.in/static/logo.png",
+  "image": "https://www.infohub.net.in/static/logo.png"
+}
+</script>
+    <!-- Apple Touch Icon (for mobile devices) -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='logo.png') }}">
     <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
