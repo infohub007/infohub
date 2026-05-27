@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+.logo {
+    height: 45px;
+    width: auto;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     scroll-behavior: smooth;
