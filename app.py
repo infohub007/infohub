@@ -6,7 +6,7 @@ from routes.auth import auth_bp
 from routes.main import main_bp
 from werkzeug.security import generate_password_hash
 from datetime import datetime
-
+from flask import render_template_string
 # Load environment variables
 load_dotenv()
 
@@ -136,7 +136,60 @@ try:
 
 except Exception as e:
     print("[ERROR] Setup failed:", e)
+# Add this to app.py (before if __name__ == '__main__')
+from datetime import datetime
 
+@app.route('/sitemap.xml')
+def sitemap():
+    """Generate sitemap.xml for search engines"""
+    from database.db import get_db
+    
+    db = get_db()
+    
+    # Base URLs - static pages
+    pages = [
+        {'loc': 'https://infohub.net.in/', 'priority': '1.0', 'changefreq': 'weekly'},
+        {'loc': 'https://infohub.net.in/projects', 'priority': '0.9', 'changefreq': 'weekly'},
+        {'loc': 'https://infohub.net.in/about', 'priority': '0.7', 'changefreq': 'monthly'},
+        {'loc': 'https://infohub.net.in/contact', 'priority': '0.7', 'changefreq': 'monthly'},
+        {'loc': 'https://infohub.net.in/projects/ai_tools/', 'priority': '0.9', 'changefreq': 'daily'},
+    ]
+    
+    # Add all project pages from database
+    projects = db.projects.find()
+    for project in projects:
+        pages.append({
+            'loc': f"https://infohub.net.in{project.get('live_demo', '')}",
+            'priority': '0.8',
+            'changefreq': 'monthly'
+        })
+    
+    # Add all AI Tools categories (from your data.js or subcategories)
+    try:
+        from js.data import subcategories
+        for category in subcategories.keys():
+            pages.append({
+                'loc': f"https://infohub.net.in/projects/ai_tools/category.html?cat={category}",
+                'priority': '0.8',
+                'changefreq': 'weekly'
+            })
+    except:
+        pass
+    
+    # Generate XML
+    sitemap_xml = render_template_string('''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {% for page in pages %}
+    <url>
+        <loc>{{ page.loc }}</loc>
+        <lastmod>{{ lastmod }}</lastmod>
+        <changefreq>{{ page.changefreq }}</changefreq>
+        <priority>{{ page.priority }}</priority>
+    </url>
+    {% endfor %}
+</urlset>''', pages=pages, lastmod=datetime.now().strftime('%Y-%m-%d'))
+    
+    return sitemap_xml, 200, {'Content-Type': 'application/xml'}
 # ============================================
 # RUN APP
 # ============================================

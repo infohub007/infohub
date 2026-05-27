@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://infohub.net.in/sitemap.xml
